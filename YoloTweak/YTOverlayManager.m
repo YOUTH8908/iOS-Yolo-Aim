@@ -1,5 +1,6 @@
 #import "YTOverlayManager.h"
 #import "YTScreenDetector.h"
+#import "YTTouchSynthesizer.h"
 
 static const CGFloat YTBallSize = 58.0;
 static const CGFloat YTEdgeMargin = 12.0;
@@ -45,6 +46,10 @@ static const CGFloat YTEdgeMargin = 12.0;
 @property (nonatomic, assign) BOOL started;
 @property (nonatomic, assign) BOOL menuVisible;
 @property (nonatomic, assign) CGPoint panStartCenter;
+@property (nonatomic, strong) UILabel *diagnosticLabel;
+@property (nonatomic, strong) UIButton *recordButton;
+@property (nonatomic, strong) UIButton *replayButton;
+@property (nonatomic, strong) UILabel *recordStatusLabel;
 @end
 
 @implementation YTOverlayManager
@@ -293,14 +298,94 @@ static const CGFloat YTEdgeMargin = 12.0;
                     action:@selector(boxesSwitchChanged:)
           forControlEvents:UIControlEventValueChanged];
 
+    UISwitch *aimLineSwitch = [[UISwitch alloc] init];
+    aimLineSwitch.on = YES;
+    aimLineSwitch.onTintColor = [UIColor colorWithRed:0.12 green:0.55 blue:1 alpha:1];
+    [aimLineSwitch addTarget:self
+                      action:@selector(aimLineSwitchChanged:)
+            forControlEvents:UIControlEventValueChanged];
+
+    UISwitch *autoAimSwitch = [[UISwitch alloc] init];
+    autoAimSwitch.onTintColor = [UIColor colorWithRed:1.0 green:0.36 blue:0.18 alpha:1];
+    [autoAimSwitch addTarget:self
+                      action:@selector(autoAimSwitchChanged:)
+            forControlEvents:UIControlEventValueChanged];
+
+    UISwitch *touchEditorSwitch = [[UISwitch alloc] init];
+    touchEditorSwitch.onTintColor = [UIColor colorWithRed:1.0 green:0.66 blue:0.12 alpha:1];
+    [touchEditorSwitch addTarget:self
+                          action:@selector(touchEditorSwitchChanged:)
+                forControlEvents:UIControlEventValueChanged];
+
+    UIButton *testButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    testButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [testButton setTitle:@"测试触摸滑动" forState:UIControlStateNormal];
+    testButton.titleLabel.font = [UIFont systemFontOfSize:15 weight:UIFontWeightSemibold];
+    testButton.tintColor = UIColor.whiteColor;
+    testButton.backgroundColor = [UIColor colorWithRed:0.12 green:0.55 blue:1.0 alpha:0.9];
+    testButton.layer.cornerRadius = 10;
+    testButton.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0);
+    [testButton addTarget:self
+                   action:@selector(testButtonTapped:)
+         forControlEvents:UIControlEventTouchUpInside];
+
+    UILabel *diagLabel = [self labelWithText:@"点击上方按钮运行诊断"
+                                        font:[UIFont monospacedSystemFontOfSize:11 weight:UIFontWeightRegular]
+                                       color:UIColor.secondaryLabelColor];
+    diagLabel.numberOfLines = 0;
+    self.diagnosticLabel = diagLabel;
+
+    // --- Recording button ---
+    UIButton *recordBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    recordBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    [recordBtn setTitle:@"● 录制触摸" forState:UIControlStateNormal];
+    recordBtn.titleLabel.font = [UIFont systemFontOfSize:15 weight:UIFontWeightSemibold];
+    recordBtn.tintColor = UIColor.whiteColor;
+    recordBtn.backgroundColor = [UIColor colorWithRed:0.85 green:0.22 blue:0.18 alpha:0.9];
+    recordBtn.layer.cornerRadius = 10;
+    recordBtn.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0);
+    [recordBtn addTarget:self
+                  action:@selector(recordButtonTapped:)
+        forControlEvents:UIControlEventTouchUpInside];
+    self.recordButton = recordBtn;
+
+    // --- Replay button ---
+    UIButton *replayBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    replayBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    [replayBtn setTitle:@"▶ 重放录制" forState:UIControlStateNormal];
+    replayBtn.titleLabel.font = [UIFont systemFontOfSize:15 weight:UIFontWeightSemibold];
+    replayBtn.tintColor = UIColor.whiteColor;
+    replayBtn.backgroundColor = [UIColor colorWithRed:0.18 green:0.72 blue:0.36 alpha:0.9];
+    replayBtn.layer.cornerRadius = 10;
+    replayBtn.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0);
+    [replayBtn addTarget:self
+                  action:@selector(replayButtonTapped:)
+        forControlEvents:UIControlEventTouchUpInside];
+    self.replayButton = replayBtn;
+
+    // --- Recording status label ---
+    UILabel *recLabel = [self labelWithText:@"录制真实触摸后重放，测试是否有效"
+                                       font:[UIFont monospacedSystemFontOfSize:11 weight:UIFontWeightRegular]
+                                      color:UIColor.secondaryLabelColor];
+    recLabel.numberOfLines = 0;
+    self.recordStatusLabel = recLabel;
+
     UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[
         heading,
         [self menuRowWithTitle:@"实时识别" detail:@"打开后开始处理画面" toggle:detectionSwitch],
         [self menuRowWithTitle:@"显示识别框" detail:@"在目标周围显示类别与置信度" toggle:boxesSwitch],
+        [self menuRowWithTitle:@"最近目标连线" detail:@"从准心连到最近的目标中心" toggle:aimLineSwitch],
+        [self menuRowWithTitle:@"自动瞄准" detail:@"按目标偏移量连续滑动视角" toggle:autoAimSwitch],
+        [self menuRowWithTitle:@"编辑触摸位置" detail:@"开启后拖动橙色触摸点" toggle:touchEditorSwitch],
+        testButton,
+        diagLabel,
+        recordBtn,
+        replayBtn,
+        recLabel,
     ]];
     stack.translatesAutoresizingMaskIntoConstraints = NO;
     stack.axis = UILayoutConstraintAxisVertical;
-    stack.spacing = 20;
+    stack.spacing = 10;
 
     [menu.contentView addSubview:stack];
     [root insertSubview:menu belowSubview:self.floatingButton];
@@ -421,6 +506,106 @@ static const CGFloat YTEdgeMargin = 12.0;
         postNotificationName:@"YTDetectionBoxesDidChangeNotification"
                       object:self
                     userInfo:@{@"enabled": @(sender.isOn)}];
+}
+
+- (void)aimLineSwitchChanged:(UISwitch *)sender {
+    [NSNotificationCenter.defaultCenter
+        postNotificationName:@"YTAimLineEnabledDidChangeNotification"
+                      object:self
+                    userInfo:@{@"enabled": @(sender.isOn)}];
+}
+
+- (void)autoAimSwitchChanged:(UISwitch *)sender {
+    [NSNotificationCenter.defaultCenter
+        postNotificationName:@"YTAutoAimEnabledDidChangeNotification"
+                      object:self
+                    userInfo:@{@"enabled": @(sender.isOn)}];
+}
+
+- (void)touchEditorSwitchChanged:(UISwitch *)sender {
+    [NSNotificationCenter.defaultCenter
+        postNotificationName:@"YTTouchPositionEditingDidChangeNotification"
+                      object:self
+                    userInfo:@{@"enabled": @(sender.isOn)}];
+}
+
+- (UIWindow *)hostWindowForDiagnostic {
+    return [YTTouchSynthesizer bestHostWindowExcluding:self.overlayWindow];
+}
+
+- (void)testButtonTapped:(UIButton *)sender {
+    self.diagnosticLabel.text = @"诊断中…";
+    self.diagnosticLabel.textColor = UIColor.secondaryLabelColor;
+
+    // Close the menu so the test swipe is visible on the host app.
+    [self setMenuVisible:NO animated:YES];
+
+    // Delay so the menu close animation (0.28s) finishes before the
+    // synchronous diagnostic blocks the main thread with usleep.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.35 * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+        UIWindow *hostWindow = [self hostWindowForDiagnostic];
+        NSString *report = [YTTouchSynthesizer runDiagnosticInWindow:hostWindow];
+
+        self.diagnosticLabel.text = report;
+        self.diagnosticLabel.textColor = UIColor.labelColor;
+        // Reopen the menu so the user can read the report.
+        [self setMenuVisible:YES animated:YES];
+    });
+}
+
+#pragma mark - Recording & Replay
+
+- (void)recordButtonTapped:(UIButton *)sender {
+    if ([YTTouchSynthesizer isRecording]) {
+        // Stop recording.
+        NSUInteger count = [YTTouchSynthesizer stopRecording];
+        [sender setTitle:@"● 录制触摸" forState:UIControlStateNormal];
+        sender.backgroundColor = [UIColor colorWithRed:0.85 green:0.22 blue:0.18 alpha:0.9];
+        self.recordStatusLabel.text =
+            [NSString stringWithFormat:@"已录制 %lu 个事件\n%@", (unsigned long)count,
+             [YTTouchSynthesizer recordedEventsSummary]];
+        self.recordStatusLabel.textColor = UIColor.labelColor;
+    } else {
+        // Start recording — close menu so user can interact with the host app.
+        [YTTouchSynthesizer startRecording];
+        [sender setTitle:@"■ 停止录制" forState:UIControlStateNormal];
+        sender.backgroundColor = [UIColor colorWithRed:0.95 green:0.30 blue:0.25 alpha:1.0];
+        self.recordStatusLabel.text = @"录制中… 在游戏里滑动，然后点悬浮球回来停止";
+        self.recordStatusLabel.textColor = [UIColor colorWithRed:0.95 green:0.30 blue:0.25 alpha:1.0];
+        [self setMenuVisible:NO animated:YES];
+    }
+}
+
+- (void)replayButtonTapped:(UIButton *)sender {
+    NSUInteger count = [YTTouchSynthesizer recordedEventCount];
+    if (count == 0) {
+        self.recordStatusLabel.text = @"没有录制内容，请先录制";
+        self.recordStatusLabel.textColor = UIColor.secondaryLabelColor;
+        return;
+    }
+
+    // Close the menu so we can see the replay effect on the host app.
+    [self setMenuVisible:NO animated:YES];
+
+    self.recordStatusLabel.text =
+        [NSString stringWithFormat:@"重放中… %lu 个事件", (unsigned long)count];
+    self.recordStatusLabel.textColor = [UIColor colorWithRed:0.18 green:0.72 blue:0.36 alpha:1.0];
+
+    // Delay so the menu close animation finishes before replay starts.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.35 * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+        [YTTouchSynthesizer replayRecording];
+
+        // Reopen the menu after a short delay so the user can see the result.
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)),
+                       dispatch_get_main_queue(), ^{
+            self.recordStatusLabel.text =
+                [NSString stringWithFormat:@"重放完成\n%@", [YTTouchSynthesizer recordedEventsSummary]];
+            self.recordStatusLabel.textColor = UIColor.labelColor;
+            [self setMenuVisible:YES animated:YES];
+        });
+    });
 }
 
 - (void)show {

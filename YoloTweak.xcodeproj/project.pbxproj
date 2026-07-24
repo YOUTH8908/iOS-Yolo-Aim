@@ -15,7 +15,13 @@
 		A10000000000000000000002 /* YTOverlayManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A10000000000000000000004 /* YTOverlayManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A10000000000000000000005 /* YTScreenDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000007 /* YTScreenDetector.m */; };
 		A10000000000000000000006 /* YTScreenDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = A10000000000000000000008 /* YTScreenDetector.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		A10000000000000000000009 /* best.mlmodelc in Resources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000A /* best.mlmodelc */; };
+		A1000000000000000000000B /* YTTouchSynthesizer.m in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000D /* YTTouchSynthesizer.m */; };
+		A1000000000000000000000C /* YTTouchSynthesizer.h in Headers */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000E /* YTTouchSynthesizer.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		A10000000000000000000009 /* best320.mlmodelc in Resources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000A /* best320.mlmodelc */; };
+		C30000000000000000000001 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C30000000000000000000011 /* CoreML.framework */; };
+		C30000000000000000000002 /* Vision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C30000000000000000000012 /* Vision.framework */; };
+		C30000000000000000000003 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C30000000000000000000013 /* ReplayKit.framework */; };
+		C30000000000000000000004 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C30000000000000000000014 /* CoreMedia.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +44,29 @@
 		A10000000000000000000004 /* YTOverlayManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YTOverlayManager.h; sourceTree = "<group>"; };
 		A10000000000000000000007 /* YTScreenDetector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YTScreenDetector.m; sourceTree = "<group>"; };
 		A10000000000000000000008 /* YTScreenDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YTScreenDetector.h; sourceTree = "<group>"; };
-		A1000000000000000000000A /* best.mlmodelc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = best.mlmodelc; sourceTree = "<group>"; };
+		A1000000000000000000000D /* YTTouchSynthesizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YTTouchSynthesizer.m; sourceTree = "<group>"; };
+		A1000000000000000000000E /* YTTouchSynthesizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YTTouchSynthesizer.h; sourceTree = "<group>"; };
+		A1000000000000000000000A /* best320.mlmodelc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = best320.mlmodelc; sourceTree = "<group>"; };
+		B20000000000000000000011 /* imgui.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui.cpp; sourceTree = "<group>"; };
+		B20000000000000000000012 /* imgui_draw.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_draw.cpp; sourceTree = "<group>"; };
+		B20000000000000000000013 /* imgui_tables.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_tables.cpp; sourceTree = "<group>"; };
+		B20000000000000000000014 /* imgui_widgets.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_widgets.cpp; sourceTree = "<group>"; };
+		B20000000000000000000015 /* imgui_impl_metal.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = imgui_impl_metal.mm; sourceTree = "<group>"; };
+		B20000000000000000000016 /* imgui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui.h; sourceTree = "<group>"; };
+		B20000000000000000000017 /* imgui_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui_internal.h; sourceTree = "<group>"; };
+		B20000000000000000000018 /* imgui_impl_metal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui_impl_metal.h; sourceTree = "<group>"; };
+		B20000000000000000000019 /* imconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imconfig.h; sourceTree = "<group>"; };
+		B2000000000000000000001A /* imstb_rectpack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imstb_rectpack.h; sourceTree = "<group>"; };
+		B2000000000000000000001B /* imstb_textedit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imstb_textedit.h; sourceTree = "<group>"; };
+		B2000000000000000000001C /* imstb_truetype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imstb_truetype.h; sourceTree = "<group>"; };
+		B2000000000000000000001D /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		C30000000000000000000011 /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
+		C30000000000000000000012 /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vision.framework; path = System/Library/Frameworks/Vision.framework; sourceTree = SDKROOT; };
+		C30000000000000000000013 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
+		C30000000000000000000014 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		C30000000000000000000015 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		C30000000000000000000016 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		C30000000000000000000017 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +74,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C30000000000000000000001 /* CoreML.framework in Frameworks */,
+				C30000000000000000000002 /* Vision.framework in Frameworks */,
+				C30000000000000000000003 /* ReplayKit.framework in Frameworks */,
+				C30000000000000000000004 /* CoreMedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +97,7 @@
 			children = (
 				DD08A3DD3012043F008E0DCD /* YoloTweak */,
 				DD08A3E93012043F008E0DCD /* YoloTweakTests */,
+				C30000000000000000000020 /* Frameworks */,
 				DD08A3DC3012043F008E0DCD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,7 +119,10 @@
 				A10000000000000000000003 /* YTOverlayManager.m */,
 				A10000000000000000000008 /* YTScreenDetector.h */,
 				A10000000000000000000007 /* YTScreenDetector.m */,
-				A1000000000000000000000A /* best.mlmodelc */,
+				A1000000000000000000000E /* YTTouchSynthesizer.h */,
+				A1000000000000000000000D /* YTTouchSynthesizer.m */,
+				B20000000000000000000020 /* ImGui */,
+				A1000000000000000000000A /* best320.mlmodelc */,
 				DD08A3DF3012043F008E0DCD /* YoloTweak.docc */,
 			);
 			path = YoloTweak;
@@ -100,6 +136,41 @@
 			path = YoloTweakTests;
 			sourceTree = "<group>";
 		};
+		B20000000000000000000020 /* ImGui */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000019 /* imconfig.h */,
+				B20000000000000000000016 /* imgui.h */,
+				B20000000000000000000017 /* imgui_internal.h */,
+				B20000000000000000000011 /* imgui.cpp */,
+				B20000000000000000000012 /* imgui_draw.cpp */,
+				B20000000000000000000013 /* imgui_tables.cpp */,
+				B20000000000000000000014 /* imgui_widgets.cpp */,
+				B20000000000000000000018 /* imgui_impl_metal.h */,
+				B20000000000000000000015 /* imgui_impl_metal.mm */,
+				B2000000000000000000001A /* imstb_rectpack.h */,
+				B2000000000000000000001B /* imstb_textedit.h */,
+				B2000000000000000000001C /* imstb_truetype.h */,
+				B2000000000000000000001D /* LICENSE.txt */,
+			);
+			name = ImGui;
+			path = ThirdParty/imgui;
+			sourceTree = "<group>";
+		};
+		C30000000000000000000020 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C30000000000000000000011 /* CoreML.framework */,
+				C30000000000000000000012 /* Vision.framework */,
+				C30000000000000000000013 /* ReplayKit.framework */,
+				C30000000000000000000014 /* CoreMedia.framework */,
+				C30000000000000000000015 /* Metal.framework */,
+				C30000000000000000000016 /* MetalKit.framework */,
+				C30000000000000000000017 /* QuartzCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -110,6 +181,7 @@
 				DD08A3EC3012043F008E0DCD /* YoloTweak.h in Headers */,
 				A10000000000000000000002 /* YTOverlayManager.h in Headers */,
 				A10000000000000000000006 /* YTScreenDetector.h in Headers */,
+				A1000000000000000000000C /* YTTouchSynthesizer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,7 +266,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A10000000000000000000009 /* best.mlmodelc in Resources */,
+				A10000000000000000000009 /* best320.mlmodelc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +286,7 @@
 			files = (
 				A10000000000000000000001 /* YTOverlayManager.m in Sources */,
 				A10000000000000000000005 /* YTScreenDetector.m in Sources */,
+				A1000000000000000000000B /* YTTouchSynthesizer.m in Sources */,
 				DD08A3E03012043F008E0DCD /* YoloTweak.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
